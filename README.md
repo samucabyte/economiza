@@ -1,4 +1,106 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+// ...existing code...
+# Economiza — Gerenciador Financeiro Pessoal
+
+Resumo
+-------
+Economiza é uma aplicação web simples para controle financeiro pessoal: registrar receitas, despesas, categorias, visualizar saldos e gráficos mensais/anuais. Projeto em Laravel pensado para uso local (XAMPP) e aprendizado.
+
+Funcionalidades principais
+--------------------------
+- Autenticação (registro/login/logout).
+- Cadastro de receitas (incomes) e despesas (expenses).
+- Categorias de despesas por usuário.
+- Visualização de transações paginadas.
+- Filtros por mês e ano.
+- Relatórios rápidos: totais de receitas, despesas e saldo.
+- Gráficos de evolução mensal e anual.
+
+Tecnologias
+-----------
+- PHP 8.x
+- Laravel (6/7/8/9 — ajuste conforme composer.json do projeto)
+- MySQL (via XAMPP)
+- Blade (templates)
+- Chart.js (gráficos)
+- Tailwind CSS / CSS custom (conforme views)
+- Composer (dependências)
+- Git (controle de versão)
+
+Pré‑requisitos
+--------------
+- Windows (desenvolvimento local)
+- XAMPP (Apache + MySQL)
+- PHP instalado (versão compatível com Laravel do projeto)
+- Composer
+- Git (opcional)
+
+Instalação (rápido)
+-------------------
+1. Clone o repositório:
+   git clone <repo-url> c:\xampp\htdocs\projetos\economiza
+
+2. Entre na pasta e instale dependências:
+   composer install
+
+3. Copie o arquivo .env e gere a chave da aplicação:
+   copy .env.example .env
+   php artisan key:generate
+
+4. Configure o banco em .env (exemplo MySQL local XAMPP):
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=economiza
+   DB_USERNAME=root
+   DB_PASSWORD=
+
+5. Crie o banco no phpMyAdmin (nome conforme .env) e rode migrations:
+   php artisan migrate
+   (Se houver seeders: php artisan db:seed)
+
+6. Inicie o servidor local (opcional):
+   php artisan serve
+   Ou acesse via http://localhost/projetos/economiza se usando Apache do XAMPP.
+
+Uso
+---
+- Acesse a aplicação e registre um usuário.
+- No painel "Minhas Transações" você pode:
+  - Adicionar receita ou despesa (certifique‑se de enviar valores numéricos).
+  - Criar/editar categorias no perfil.
+  - Filtrar transações por mês/ano.
+  - Visualizar totais e gráficos.
+
+Observações importantes
+-----------------------
+- Campos numéricos (amount/value) devem receber valores numéricos. Erros de formato (ex.: inserir texto no campo amount) causam falhas no banco.
+- Modelos Eloquent precisam expor os campos preenchíveis ($fillable) para usar create(). Verifique app/Models para ajustar se necessário (ex.: ExpenseCategory: ['name','user_id']).
+- Nomes de colunas de referência de usuário seguem o padrão do projeto: usar user_id consistentemente. Ajuste código se estiver usando id_user.
+
+Comandos úteis
+--------------
+- Executar migrations: php artisan migrate
+- Rodar seeders: php artisan db:seed
+- Limpar cache config/route/view: php artisan config:clear && php artisan route:clear && php artisan view:clear
+- Testes (se houver): php artisan test
+
+Estrutura relevante (resumo)
+----------------------------
+- app/Http/Controllers — controladores (HomeController, ProfileController, LoginController, etc.)
+- app/Models — modelos Eloquent (User, Expense, Income, ExpenseCategory, Transaction, ...)
+- resources/views — views Blade
+- database/migrations — migrations das tabelas
+- public/ — assets públicos (JS/CSS)
+
+Contribuição
+-----------
+Pull requests são bem‑vindos. Abra issues para bugs ou sugestões. Mantenha um padrão claro de commits.
+
+Licença
+-------
+MIT
+
+// ...existing code...<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>

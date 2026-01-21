@@ -3,7 +3,14 @@
     <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
         ➕ Adicionar Transação
     </h2>
-
+    @if (count($categories) === 0)
+        <div class="bg-red-200 text-red-700 p-3 mb-2 rounded-md">
+            <ul>
+                <li>Vá nas <a class="text-blue-500" href="{{ route('profile') }}">Configurações</a> para adicionar novas
+                    categorias</li>
+            </ul>
+        </div>
+    @endif
     <!-- Form -->
     <form action="{{ route('transactions.store') }}" method="POST" class="grid grid-cols-1 md:grid-cols-5 gap-6">
         @csrf
@@ -60,5 +67,8 @@
                 💾 Adicionar
             </button>
         </div>
+
     </form>
+
+
 </div>

@@ -111,6 +111,7 @@ $expensesTotal = (clone $baseQuery)
     }
    
 
+
     return view('home', compact(
         'transactions',
         'revenuesTotal',

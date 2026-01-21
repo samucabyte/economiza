@@ -50,9 +50,11 @@
 
             <!-- CATEGORIAS DINÂMICAS -->
             <div class="text-white">
-                <div class="flex">
+                <div class="flex items-center">
                     <label class="font-semibold block mb-2">Categorias</label>
-                    <div id="btMuv" class="ml-2 cursor-pointer text-xl">+</div>
+                    <div id="btMuv" class="ml-2  cursor-pointer p-1 border rounded-md border-green-400 text-xl">
+                        <span id="btnSt">↓</span>
+                    </div>
                 </div>
 
 
@@ -63,9 +65,9 @@
                     <!-- Categorias existentes -->
                     @if (!empty($categories))
                         @foreach ($categories as $cat)
-                            <div class="flex items-center gap-3 category-item">
+                            <div class="flex mt-8 items-center gap-3 category-item">
                                 <input type="text" name="categories[]" value="{{ $cat->name }}"
-                                    class="w-full p-3 rounded-lg" placeholder="Digite uma categoria">
+                                    class="w-full  p-3 rounded-lg" placeholder="Digite uma categoria">
                                 <button type="button"
                                     class="remove-category bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition">
                                     -
@@ -83,14 +85,15 @@
                             </button>
                         </div>
                     @endif
+                    <!-- Botão adicionar categoria -->
 
+                    <button type="button" id="add-category"
+                        class="mt-3 bg-green-500 hover:bg-green-600 px-4 py-2 rounded-xl font-semibold text-white transition">
+                        + Adicionar Categoria
+                    </button>
                 </div>
 
-                <!-- Botão adicionar categoria -->
-                <button type="button" id="add-category"
-                    class="mt-3 bg-green-500 hover:bg-green-600 px-4 py-2 rounded-xl font-semibold text-white transition">
-                    + Adicionar Categoria
-                </button>
+
             </div>
 
             <!-- Botão Salvar -->
@@ -137,6 +140,7 @@
             const wrapper = document.getElementById('categories-wrapper');
             const addBtn = document.getElementById('add-category');
             const btnCatg = document.getElementById('btMuv');
+            const btnSt = document.getElementById("btnSt");
 
             // Adicionar categoria
             addBtn.addEventListener('click', () => {
@@ -147,7 +151,7 @@
                     <input 
                         type="text"
                         name="categories[]"
-                        class="w-full p-3 rounded-lg"
+                        class="w-full p-3 rounded-lg mt-2"
                         placeholder="Digite uma categoria"
                     >
                     <button type="button"
@@ -156,7 +160,10 @@
                     </button>
                 `;
 
-                wrapper.appendChild(div);
+                // wrapper.appendChild(div);
+                wrapper.insertBefore(div, addBtn);
+
+
             });
 
             // Remover categoria
@@ -166,13 +173,16 @@
                 }
             });
             btnCatg.addEventListener('click', function() {
+
+
                 wrapper.classList.toggle('max-h-0');
                 wrapper.classList.toggle('opacity-0');
                 wrapper.classList.toggle('translate-y-[-10px]');
-
                 wrapper.classList.toggle('max-h-scren');
                 wrapper.classList.toggle('opacity-100');
                 wrapper.classList.toggle('translate-y-0');
+                btnSt.innerHTML =
+                    btnSt.innerHTML === '↑' ? '↓' : '↑';
             });
         });
     </script>

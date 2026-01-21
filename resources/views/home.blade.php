@@ -8,12 +8,11 @@
     {{-- Resumo --}}
     {{-- FILTRO POR MÊS + ANO --}}
     <div class="mb-6 flex items-center gap-4 bg-white p-4 shadow rounded-lg w-full">
-        <form method="GET" action="{{ route('transactions.index') }}"
-            class="flex flex-wrap md:flex-nowrap items-center gap-3 w-full">
+        <form method="GET" action="{{ route('home') }}" class="flex flex-wrap md:flex-nowrap items-center gap-3 w-full">
 
             {{-- FILTRO MÊS --}}
             <select name="month" class="p-2 border rounded-lg bg-gray-100 text-gray-700 focus:ring-2 focus:ring-sky-500">
-                <option value="">Todos os meses</option>
+
 
                 @foreach (range(1, 12) as $m)
                     <option value="{{ $m }}" {{ request('month') == $m ? 'selected' : '' }}>
@@ -24,13 +23,15 @@
 
             {{-- FILTRO ANO --}}
             <select name="year" class="p-2 border rounded-lg bg-gray-100 text-gray-700 focus:ring-2 focus:ring-sky-500">
-                <option value="">Todos os anos</option>
-
-                @foreach ($years as $year)
+                @forelse ($years as $year)
                     <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
                         {{ $year }}
                     </option>
-                @endforeach
+                @empty
+                    <option value="{{ now()->year }}" selected>
+                        {{ now()->year }}
+                    </option>
+                @endforelse
             </select>
 
             <button type="submit" class="bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 transition">
@@ -140,6 +141,10 @@
         </div>
 
     </div>
+    {{-- Paginação --}}
+    <div class="mt-6">
+        {{ $transactions->withQueryString()->links() }}
+    </div>
     {{-- Gráfico MENSAL --}}
     <div class="bg-white p-6 rounded-lg shadow-lg mt-6">
         <h2 class="text-xl font-bold mb-4">Evolução Mensal</h2>
@@ -150,13 +155,6 @@
     <div class="bg-white p-6 rounded-lg shadow-lg mt-6">
         <h2 class="text-xl font-bold mb-4">Evolução Anual</h2>
         <canvas id="yearlyChart"></canvas>
-    </div>
-
-
-
-    {{-- Paginação --}}
-    <div class="mt-6">
-        {{ $transactions->links() }}
     </div>
 @endsection
 

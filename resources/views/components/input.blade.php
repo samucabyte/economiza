@@ -5,5 +5,5 @@
     @endif
     <input type="{{ $type }}" id="type" name="{{ $name }}" value="{{ $value }}"
         placeholder="{{ $placeholder }}"
-        class="border-b-2 border-gray-300 w-full p-2 focus:outline-none focus:border-sky-500">
+        class="border-b-2 border-gray-300 w-full  rounded-lg p-2 focus:outline-none focus:border-sky-500">
 </div>

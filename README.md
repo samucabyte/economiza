@@ -1,4 +1,3 @@
-// ...existing code...
 # Economiza — Gerenciador Financeiro Pessoal
 
 Resumo

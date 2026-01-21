@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Wage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Exp;
 
 class ProfileController extends Controller
@@ -36,18 +37,18 @@ class ProfileController extends Controller
 public function profileAction(Request $request)
 {
     $user = Auth::user();
-    // 🔹 Atualiza nome
+    // Atualiza nome
     $user->update([
         'name' => $request->name
     ]);
 
-    // 🔹 CATEGORIAS
+    // CATEGORIAS
     $categoriesInput = $request->categories ?? [];
 
     // Busca categorias já existentes
     $existingCategories = ExpenseCategory::where('user_id', $this->user_id)->get();
 
-    // 1️⃣ Atualiza ou cria
+    // Atualiza ou cria
     foreach ($categoriesInput as $inputName) {
 
         if (empty($inputName)) continue;
@@ -66,7 +67,7 @@ public function profileAction(Request $request)
         }
     }
 
-    // 2️⃣ Exclui categorias removidas do formulário
+    // Exclui categorias removidas do formulário
     foreach ($existingCategories as $cat) {
         if (!in_array($cat->name, $categoriesInput)) {
             $cat->delete();
@@ -74,6 +75,27 @@ public function profileAction(Request $request)
     }
 
     return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
+}
+public function profilePasswordAction(Request $r){
+    $r->validate([
+        'currentPassword'=>'required',
+        'newPassword'=>'required|min:6|confirmed'
+    ]);
+
+    $user = Auth::user();
+
+    if(!Hash::check($r->currentPassword, $user->password)){
+        return back()->withErrors([
+            'currentPassword' => 'Senha atual incorreta'
+        ]);
+    }
+     // Atualiza a senha
+    $user->password = Hash::make($r->newPassword);
+    $user->save();
+
+    return back()->with('success', 'Senha alterada com sucesso!');
+
+
 }
 
     

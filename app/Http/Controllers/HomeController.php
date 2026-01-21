@@ -28,28 +28,30 @@ class HomeController extends Controller
 
         $userId = Auth::id();
         $month = $request->input('month') ?? Carbon::now()->month;
-    $year = $request->input('year') ?? Carbon::now()->year;
+        $year = $request->input('year') ?? Carbon::now()->year;
 
-    $query = Transaction::with('category')
-                ->where('user_id', $userId)
-                ->whereMonth('created_at', $month)
-                ->whereYear('created_at', $year);
+  // Filtro por mês, Filtro por ano
+    $baseQuery = Transaction::where('user_id', $userId)
+    ->when($month, fn ($q) => $q->whereMonth('created_at', $month))
+    ->when($year, fn ($q) => $q->whereYear('created_at', $year));
     
-    // Filtro por mês
-    if ($month) {
-        $query->whereMonth('created_at', $month);
-    }
-
-    // Filtro por ano
-    if ($year) {
-        $query->whereYear('created_at', $year);
-    }
-
-    $transactions = $query->orderBy('created_at', 'desc')->paginate(10);
+  
+    
+    $transactions = (clone $baseQuery)
+    ->with('category')
+    ->orderBy('created_at', 'desc')
+    ->paginate(10)
+    ->withQueryString();
+        
 
     // Totais
-    $revenuesTotal = (clone $query)->where('type', 'revenue')->sum('amount');
-    $expensesTotal = (clone $query)->where('type', 'expense')->sum('amount');
+   $revenuesTotal = (clone $baseQuery)
+    ->where('type', 'revenue')
+    ->sum('amount');
+
+$expensesTotal = (clone $baseQuery)
+    ->where('type', 'expense')
+    ->sum('amount');
 
     // Categorias
     $categories = ExpenseCategory::where('user_id', $userId)->get();
@@ -91,6 +93,7 @@ class HomeController extends Controller
             DB::raw('SUM(CASE WHEN type = "revenue" THEN amount ELSE 0 END) as revenues'),
             DB::raw('SUM(CASE WHEN type = "expense" THEN amount ELSE 0 END) as expenses')
         )
+        ->where('user_id',$userId)
         ->groupBy('year')
         ->orderBy('year')
         ->get();
@@ -106,6 +109,7 @@ class HomeController extends Controller
         $chartYearExpense[] = $y->expenses;
         $chartYearBalance[] = $y->revenues - $y->expenses;
     }
+   
 
     return view('home', compact(
         'transactions',

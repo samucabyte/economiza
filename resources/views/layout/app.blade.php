@@ -23,7 +23,7 @@
                     <div class="hidden md:flex gap-6 items-center">
                         @auth
                             <a href="{{ route('profile') }}" class="text-gray-700 hover:text-blue-600 font-medium">
-                                {{ Auth::user()->name }}
+                                Configurações
                             </a>
                         @endauth
                         <a href="{{ route('logout') }}" class="text-gray-700 hover:text-blue-600 font-medium">Sair

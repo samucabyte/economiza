@@ -50,9 +50,15 @@
 
             <!-- CATEGORIAS DINÂMICAS -->
             <div class="text-white">
-                <label class="font-semibold block mb-2">Categorias</label>
+                <div class="flex">
+                    <label class="font-semibold block mb-2">Categorias</label>
+                    <div id="btMuv" class="ml-2 cursor-pointer text-xl">+</div>
+                </div>
 
-                <div id="categories-wrapper" class="space-y-4 text-black">
+
+                <div id="categories-wrapper"
+                    class="overflow-hidden transition-all duration-500 ease-in-out
+            max-h-0 opacity-0 translate-y-[-10px] space-y-4 text-black ">
 
                     <!-- Categorias existentes -->
                     @if (!empty($categories))
@@ -95,6 +101,34 @@
                 Salvar
             </button>
         </form>
+        <hr class="mt-8">
+        </hr>
+        <form method="POST" action="{{ route('profilePasswordAction') }}" class="space-y-6">
+            @csrf
+            @if ($errors->any())
+                <div class="bg-red-100 text-red-700 p-3 rounded">
+                    <ul>
+                        @foreach ($errors->all() as $erro)
+                            <li>{{ $erro }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <label class="font-semibold block mt-2 text-2xl text-center">Trocar a senha</label>
+            <div class="flex flex-col items-center gap-3 ">
+                <input type="password" name="currentPassword" required class="w-full text-black mt-2 p-3 rounded-lg"
+                    placeholder="Digite a sua senha atual">
+                <input type="password" name="newPassword" required class="w-full text-black p-3 rounded-lg"
+                    placeholder="Digite a sua nova senha">
+                <input type="password" name="newPassword_confirmation" required class="w-full text-black p-3 rounded-lg"
+                    placeholder="Digite novamente a sua nova senha">
+                <button type="submit"
+                    class=" w-full bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition">
+                    Atualizar
+                </button>
+            </div>
+        </form>
+
     </div>
 
     <!-- Script das categorias dinâmicas -->
@@ -102,6 +136,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const wrapper = document.getElementById('categories-wrapper');
             const addBtn = document.getElementById('add-category');
+            const btnCatg = document.getElementById('btMuv');
 
             // Adicionar categoria
             addBtn.addEventListener('click', () => {
@@ -129,6 +164,15 @@
                 if (e.target.classList.contains('remove-category')) {
                     e.target.parentElement.remove();
                 }
+            });
+            btnCatg.addEventListener('click', function() {
+                wrapper.classList.toggle('max-h-0');
+                wrapper.classList.toggle('opacity-0');
+                wrapper.classList.toggle('translate-y-[-10px]');
+
+                wrapper.classList.toggle('max-h-scren');
+                wrapper.classList.toggle('opacity-100');
+                wrapper.classList.toggle('translate-y-0');
             });
         });
     </script>

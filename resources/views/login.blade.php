@@ -24,7 +24,7 @@
         <!-- Lado direito (formulário) -->
         <div class="w-1/2 p-8 flex flex-col">
             @if (session('erro'))
-                <div class="bg-red-300 text-white p-2 rounded mb-4">
+                <div class="bg-red-300 text-white p-2 rounded">
                     {{ session('erro') }}
                 </div>
             @endif
@@ -33,7 +33,12 @@
                 @csrf
                 <x-input label="E-mail" type="email" name="email" placeholder="Digite seu e-mail" />
                 <x-input label="Senha" type="password" name="password" placeholder="Digite sua senha" />
-                <p class="mb-6">Esqueceu a senha? <a href="{{ route('loginReset') }}"
+                <div>
+                    <input type="checkbox" name="remember" id="remember" class="mb-4">
+                    <label for="remember" class="text-sm mb-4">Lembrar-me</label>
+                </div>
+
+                <p class="mb-6">Esqueceu a senha? <a href="{{ route('password.request') }}"
                         class="text-sky-500 text-sm">Clique aqui</a>
                 </p>
 

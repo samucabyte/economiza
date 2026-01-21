@@ -9,6 +9,7 @@
         "almasaeed2010/adminlte": "~3.2",
         "andcarpi/laravel-popper": "^0.9.4",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.2",
         "laravel/tinker": "^2.9",
         "twbs/bootstrap": "5.3.3"
     },
